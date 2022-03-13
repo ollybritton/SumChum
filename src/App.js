@@ -1,23 +1,13 @@
-import logo from './logo.svg';
+import { MathJaxContext } from 'better-react-mathjax';
 import './App.css';
+import { Multiply } from './quizzes/Multiply';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <MathJaxContext>
+        <Multiply />
+      </MathJaxContext>
     </div>
   );
 }
