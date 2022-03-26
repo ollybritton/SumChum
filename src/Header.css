@@ -1,0 +1,15 @@
+.Header {
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  padding: 0 1rem;
+}
+
+.Header-title > a {
+  text-decoration: none;
+  color: black;
+}
+
+.Header-page {
+  font-weight: lighter;
+  opacity: 0.5;
+}

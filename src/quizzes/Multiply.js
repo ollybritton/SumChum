@@ -3,6 +3,15 @@ import { MathJax } from "better-react-mathjax";
 import React from "react";
 import { randint } from "./utils";
 
+import "./Multiply.css"
+
+export let info = {
+    title: "Multiply",
+    pageTitle: "Multiply",
+    description: "Practice multiply arbitrary digit numbers together.",
+    path: "/multiply"
+}
+
 // generate creates a multiplication question.
 // options.digits = [a, b] where a and b are the lengths of the input numbers.
 export function generate(options) {
@@ -22,16 +31,19 @@ export function generate(options) {
     let x = `${randint(1, 9)}`;
     let y = `${randint(1, 9)}`;
 
-    for (let i = 0; i < a-1; i++) {
+    for (let i = 0; i < a - 1; i++) {
         x += `${randint(0, 9)}`
     }
 
-    for (let i = 0; i < b-1; i++) {
+    for (let i = 0; i < b - 1; i++) {
         y += `${randint(0, 9)}`
     }
 
-    let question = `${x} \\times ${y}`
-    let answer = parseInt(x) * parseInt(y)
+    x = parseInt(x);
+    y = parseInt(y);
+
+    let question = `${x.toLocaleString()} \\times ${y.toLocaleString()}`
+    let answer = x * y
 
     return {
         question: question,
@@ -43,10 +55,8 @@ export class Multiply extends React.Component {
     constructor(props) {
         super(props);
 
-        let options = {digits: [2, 2]}
+        let options = { digits: [2, 2] }
         let initial = generate(options);
-
-        console.log(initial)
 
         this.state = {
             options: options,
@@ -61,7 +71,7 @@ export class Multiply extends React.Component {
         window.addEventListener("keydown", this.keydownHandler)
         window.addEventListener("click", this.clickHandler)
     }
-    
+
     componentWillUnmount() {
         window.removeEventListener("keydown", this.keydownHandler)
         window.removeEventListener("click", this.clickHandler)
@@ -69,9 +79,9 @@ export class Multiply extends React.Component {
 
     updateQuestion() {
         if (this.state.hidden) {
-            this.setState({hidden: false})
+            this.setState({ hidden: false })
         } else {
-            this.setState({...generate(this.state.options), hidden: true})
+            this.setState({ ...generate(this.state.options), hidden: true })
         }
     }
 
@@ -91,12 +101,25 @@ export class Multiply extends React.Component {
 
 
     render() {
-        let prettyAnswer = this.state.answer.toLocaleString() // Put commas in the right places.
+        let prettyAnswer = this.state.hidden ? " " : this.state.answer.toLocaleString()
 
         return (
             <div>
-                <h1><MathJax dynamic hideUntilTypeset={"first"}>{`$$${this.state.question}$$`}</MathJax></h1>
-                <h2 hidden={this.state.hidden}><MathJax dynamic hideUntilTypeset={"first"}>{`$$${prettyAnswer}$$`}</MathJax></h2>
+                <div className="Multiply-fixed-height">
+                    <h1>
+                        <MathJax dynamic hideUntilTypeset={"first"}>
+                            {"$$" + this.state.question + "$$"}
+                        </MathJax>
+                    </h1>
+                    <h2>
+                        <MathJax dynamic hideUntilTypeset={"first"}>
+                            {"$$" + prettyAnswer + "$$"}
+                        </MathJax>
+                    </h2>
+                </div>
+                <p>
+                    There are several different ways to do efficient mental multiplication. The overarching idea is that space-complexity should be limited.
+                </p>
             </div>
         )
     }
